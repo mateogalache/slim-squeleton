@@ -6,6 +6,7 @@ use SallePW\SlimApp\Controller\CreateUserController;
 use SallePW\SlimApp\Controller\FileController;
 use SallePW\SlimApp\Controller\FlashController;
 use SallePW\SlimApp\Controller\HomeController;
+use SallePW\SlimApp\Controller\SignUpController;
 use SallePW\SlimApp\Controller\VisitsController;
 use SallePW\SlimApp\Middleware\beforeMiddleware;
 use SallePW\SlimApp\Middleware\StartSessionMiddleware;
@@ -46,3 +47,13 @@ $app->post(
     '/files',
     FileController::class . ':uploadFileAction'
 )->setName('upload');
+
+$app->get(
+    '/sign-up',
+    SignUpController::class . ':showSignUp'
+);
+
+$app->post(
+    '/sign-up',
+    SignUpController::class . ':uploadSignUp'
+);

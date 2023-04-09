@@ -8,6 +8,7 @@ use SallePW\SlimApp\Controller\CreateUserController;
 use SallePW\SlimApp\Controller\FileController;
 use SallePW\SlimApp\Controller\FlashController;
 use SallePW\SlimApp\Controller\HomeController;
+use SallePW\SlimApp\Controller\SignUpController;
 use SallePW\SlimApp\Controller\VisitsController;
 use SallePW\SlimApp\Model\Repository\MysqlUserRepository;
 use SallePW\SlimApp\Model\Repository\PDOSingleton;
@@ -91,6 +92,14 @@ $container->set(
     FileController::class,
     function (Container $c) {
         $controller = new FileController($c->get("files"));
+        return $controller;
+    }
+);
+
+$container->set(
+    SignUpController::class,
+    function (Container $c) {
+        $controller = new SignUpController($c->get("view"));
         return $controller;
     }
 );
