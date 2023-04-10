@@ -1,11 +1,16 @@
 <?php
 declare(strict_types=1);
 
+use SallePW\SlimApp\Controller\ChangePasswordController;
 use SallePW\SlimApp\Controller\CookieMonsterController;
 use SallePW\SlimApp\Controller\CreateUserController;
 use SallePW\SlimApp\Controller\FileController;
 use SallePW\SlimApp\Controller\FlashController;
 use SallePW\SlimApp\Controller\HomeController;
+use SallePW\SlimApp\Controller\HomePageController;
+use SallePW\SlimApp\Controller\MarketController;
+use SallePW\SlimApp\Controller\ProfileController;
+use SallePW\SlimApp\Controller\SignInController;
 use SallePW\SlimApp\Controller\SignUpController;
 use SallePW\SlimApp\Controller\VisitsController;
 use SallePW\SlimApp\Middleware\beforeMiddleware;
@@ -56,4 +61,34 @@ $app->get(
 $app->post(
     '/sign-up',
     SignUpController::class . ':uploadSignUp'
+);
+
+$app->get(
+    '/sign-in',
+    SignInController::class . ':showSignIn'
+)->setName('sign-in');
+
+$app->post(
+    '/sign-in',
+    SignInController::class . ':uploadSignIn'
+);
+
+$app->get(
+    '/home',
+    HomePageController::class . ':showHomePage'
+);
+
+$app->get(
+    '/market',
+    MarketController::class . ':showMarket'
+);
+
+$app->get(
+    '/changepassword',
+    ChangePasswordController::class . ':showChangePassword'
+);
+
+$app->get(
+    '/profile',
+    ProfileController::class . ':showProfile'
 );

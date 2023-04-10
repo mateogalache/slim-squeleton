@@ -3,11 +3,16 @@ declare(strict_types=1);
 
 use DI\Container;
 use Psr\Container\ContainerInterface;
+use SallePW\SlimApp\Controller\ChangePasswordController;
 use SallePW\SlimApp\Controller\CookieMonsterController;
 use SallePW\SlimApp\Controller\CreateUserController;
 use SallePW\SlimApp\Controller\FileController;
 use SallePW\SlimApp\Controller\FlashController;
 use SallePW\SlimApp\Controller\HomeController;
+use SallePW\SlimApp\Controller\HomePageController;
+use SallePW\SlimApp\Controller\MarketController;
+use SallePW\SlimApp\Controller\ProfileController;
+use SallePW\SlimApp\Controller\SignInController;
 use SallePW\SlimApp\Controller\SignUpController;
 use SallePW\SlimApp\Controller\VisitsController;
 use SallePW\SlimApp\Model\Repository\MysqlUserRepository;
@@ -103,4 +108,46 @@ $container->set(
         return $controller;
     }
 );
+
+$container->set(
+    SignInController::class,
+    function (Container $c) {
+        $controller = new SignInController($c->get("view"),$c->get("flash"));
+        return $controller;
+    }
+);
+
+$container->set(
+    HomePageController::class,
+    function (Container $c) {
+        $controller = new HomePageController($c->get("view"));
+        return $controller;
+    }
+);
+
+$container->set(
+    ChangePasswordController::class,
+    function (Container $c) {
+        $controller = new ChangePasswordController($c->get("view"), $c->get("flash"));
+        return $controller;
+    }
+);
+
+$container->set(
+    MarketController::class,
+    function (Container $c) {
+        $controller = new MarketController($c->get("view"), $c->get("flash"));
+        return $controller;
+    }
+);
+
+$container->set(
+    ProfileController::class,
+    function (Container $c) {
+        $controller = new ProfileController($c->get("view"), $c->get("flash"));
+        return $controller;
+    }
+);
+
+
 
