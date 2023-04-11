@@ -26,7 +26,7 @@ final class MarketController
         if(!isset($_SESSION['username'])){
             $this->flash->addMessage(
                 'notifications',
-                'You must be logged in to access the market page'
+                'You must be logged in to access the market page.'
             );
 
             $routeParser = RouteContext::fromRequest($request)->getRouteParser();

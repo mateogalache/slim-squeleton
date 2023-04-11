@@ -20,9 +20,9 @@ use SallePW\SlimApp\Middleware\StartSessionMiddleware;
 $app->add(StartSessionMiddleware::class);
 
 $app->get(
-    '/',
+    '/home',
     HomeController::class . ':apply')
-    ->setName('home');
+;
 $app->get(
     '/visits',
     VisitsController::class . ":showVisits"
@@ -74,9 +74,9 @@ $app->post(
 );
 
 $app->get(
-    '/home',
+    '/',
     HomePageController::class . ':showHomePage'
-);
+)->setName('home');;
 
 $app->get(
     '/market',
@@ -84,7 +84,7 @@ $app->get(
 );
 
 $app->get(
-    '/changepassword',
+    '/profile/changePassword',
     ChangePasswordController::class . ':showChangePassword'
 );
 

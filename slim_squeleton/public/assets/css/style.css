@@ -24,7 +24,7 @@
 
 .notification{
     position: fixed;
-    right: -22rem;
+    right: -27rem;
     border: 1px solid black;
     padding: 1rem;
     animation: show 10s ease;
@@ -32,13 +32,13 @@
 
 @keyframes show {
     0%{
-        right: -22rem;
+        right: -27rem;
     }
     20%,80%{
         right: 0;
     }
     100%{
-        right: -22rem;
+        right: -27rem;
     }
 }
 

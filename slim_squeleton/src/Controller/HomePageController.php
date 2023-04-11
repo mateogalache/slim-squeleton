@@ -20,7 +20,12 @@ final class HomePageController
     public function showHomePage(Request $request, Response $response): Response
     {
         //session_start();
-        $username = $_SESSION['username'];
+        if(!isset($_SESSION['username'])){
+            $username = "stranger";
+        } else{
+            $username = $_SESSION['username'];
+        }
+
 
         return $this->twig->render(
             $response,

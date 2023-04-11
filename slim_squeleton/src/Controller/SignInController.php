@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace SallePW\SlimApp\Controller;
 
+use SallePW\SlimApp\Controller\InputsValidationsController;
 use PDO;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -13,6 +14,7 @@ final class SignInController
 {
     private Twig $twig;
     private Messages $flash;
+    private InputsValidationsController $validationsController;
 
     public function __construct(Twig $twig, Messages $flash)
     {
@@ -46,25 +48,25 @@ final class SignInController
             'email' => $email,
         );
 
+        $validationsController = new InputsValidationsController();
 
-        $formErrors['email'] = $this->emailAction();
-        $formErrors['password'] = $this->authPassword($password);
+        $formErrors['email'] = $validationsController->emailAction();
+        $formErrors['password'] = $validationsController->authPassword($password);
 
 
         if(!$formErrors['email'] && !$formErrors['password']){
-            $formErrors['password'] = $this->comparePassword();
-            if (! $formErrors['password']){
-
+            if (!$this->comparePassword()){
                 $_SESSION['username'] = substr($_POST['email'], 0, strrpos($_POST['email'], '@'));
-                return $this->twig->render(
-                    $response,
-                    'homepage.twig',
-                    [
-                        "username" => $_SESSION['username']
-                    ]
-                );
+                return $response->withHeader('Location', '/')->withStatus(302);
             }
             else{
+                if($this->comparePassword() === "Your email and/or password are incorrect."){
+                    $formErrors['password'] = $this->comparePassword();
+                }
+                else{
+                    $formErrors['email'] = $this->comparePassword();
+                }
+
                 return $this->twig->render(
                     $response,
                     'sign-in.twig',
@@ -90,54 +92,7 @@ final class SignInController
 
     }
 
-    private function emailAction(): string|null
-    {
 
-        $email = $_POST['email'];
-        $validation = $this->authEmail($email);
-        if ($validation === "correct"){
-            return null;
-        }
-        else{
-            if ($validation === "notEmail"){
-                return "The email address is not valid";
-            }
-            else{
-                return "Only emails from the domain @salle.url.edu are accepted";
-            }
-        }
-
-
-    }
-
-    private function authEmail(string $email): string
-    {
-        $validation = "correct";
-
-        if (!filter_var($email,FILTER_VALIDATE_EMAIL)){
-            $validation = "notEmail";
-        }
-
-        if (!str_ends_with($email, "@salle.url.edu")){
-            $validation = "badSalle";
-        }
-        return $validation;
-    }
-
-    private function authPassword(string $password): ?string
-    {
-        if(!preg_match('/^.{7,}$/', $password)){
-            return "The password must contain at least 7 characters";
-        }
-
-        else if(!preg_match('/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/',$password)){
-            return "The password must contain both upper and lower case letters and numbers.";
-        }
-
-        else{
-            return null;
-        }
-    }
 
 
 
@@ -156,10 +111,10 @@ final class SignInController
 
 
         if (!$user) {
-            return "User with this email address does not exist";
+            return "User with this email address does not exist.";
         }
         else if (!password_verify($_POST['password'],$user['password'])) {
-            return "Your email and/or password are incorrect";
+            return "Your email and/or password are incorrect.";
         } else {
 
             return null;

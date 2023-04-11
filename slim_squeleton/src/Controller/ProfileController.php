@@ -26,7 +26,7 @@ final class ProfileController
         if(!isset($_SESSION['username'])){
             $this->flash->addMessage(
                 'notifications',
-                'You must be logged in to access the profile page'
+                'You must be logged in to access the profile page.'
             );
 
             $routeParser = RouteContext::fromRequest($request)->getRouteParser();

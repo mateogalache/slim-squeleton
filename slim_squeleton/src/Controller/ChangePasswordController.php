@@ -26,7 +26,7 @@ final class ChangePasswordController
         if(!isset($_SESSION['username'])){
             $this->flash->addMessage(
                 'notifications',
-                'You must be logged in to access the change password page'
+                'You must be logged in to access the changePassword page.'
             );
 
             $routeParser = RouteContext::fromRequest($request)->getRouteParser();
